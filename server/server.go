@@ -53,7 +53,7 @@ func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.Handl
 		}
 		rt, ok := r.URL.Query()["rt"]
 
-		if ok && len(rt[0]) >= 1 {
+		if ok && rt[0] == "1" {
 			rebuildTmpl()
 		}
 
@@ -106,7 +106,11 @@ func saveHandler(w http.ResponseWriter, r *http.Request, title string) {
 
 //Run runserver
 func Run() {
-	//http.HandleFunc("/", handler)
+
+	//https://stackoverflow.com/questions/43601359/how-do-i-serve-css-and-js-in-go
+	//http.Handle("/", http.FileServer(http.Dir("static/css")))
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+
 	http.HandleFunc("/view/", makeHandler(viewHandler))
 	http.HandleFunc("/edit/", makeHandler(editHandler))
 	http.HandleFunc("/save/", makeHandler(saveHandler))
