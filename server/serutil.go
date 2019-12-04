@@ -23,3 +23,9 @@ func LoadPage(title string) (*Page, error) {
 	}
 	return &Page{Title: title, Body: body}, nil
 }
+
+
+type User struct {
+	Name string ``
+	Pwd string ``
+}
